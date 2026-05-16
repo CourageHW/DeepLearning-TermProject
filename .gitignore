@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# C build artifacts
+*.so
+*.o
+*.a
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Tool directories (LLM agents / CLI configs)
+.claude/
+.codex/
+.agents/
+
+# Backups
+*.bak
+*.backup
+
+# Local data caches (if downloaded under repo)
+data/

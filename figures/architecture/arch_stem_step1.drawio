@@ -1,0 +1,192 @@
+<mxfile host="app.diagrams.net" agent="hand-authored" version="22.0.0">
+  <diagram name="Step1-Stem" id="step1stem">
+    <mxGraphModel dx="1500" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- title -->
+        <mxCell id="title" value="Step 1 — Stem adaptation  (ImageNet ResNet18 → CIFAR-100 32×32)" style="text;html=1;align=center;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="200" y="20" width="1300" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="subt" value="larger spatial map entering layer1  ⇒  more usable features for 32×32 inputs.   FP32 conv1 throughout (no binarization yet — teacher phase)." style="text;html=1;align=center;fontSize=12;fontStyle=2;fontColor=#555555" vertex="1" parent="1">
+          <mxGeometry x="200" y="55" width="1300" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================
+             Variant A — Original ImageNet stem
+             ============================================================ -->
+        <mxCell id="A_card" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7f7f7;strokeColor=#bbbbbb;dashed=0" vertex="1" parent="1">
+          <mxGeometry x="60" y="105" width="370" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="A_head" value="A.  Original ImageNet stem" style="text;html=1;align=center;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="115" width="370" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="A_sub" value="7×7 s=2  +  MaxPool 3×3 s=2" style="text;html=1;align=center;fontSize=11;fontStyle=2;fontColor=#666" vertex="1" parent="1">
+          <mxGeometry x="60" y="138" width="370" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="A_in" value="Input&#10;3 × 32 × 32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="125" y="170" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="A_c" value="Conv 7×7&#10;stride 2,  pad 3&#10;3 → 64" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="125" y="250" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="A_r1" value="ReLU + BN&#10;→ 64 × 16 × 16" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5d6e8;strokeColor=#a23b78;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="125" y="345" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="A_mp" value="MaxPool 3×3&#10;stride 2,  pad 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff6cf;strokeColor=#a07a14;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="125" y="420" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="A_out" value="→ 64 × 8 × 8&#10;enters layer1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="125" y="505" width="240" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="A_res" value="Top-1   70.90 %" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#888888;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="100" y="600" width="290" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="A_note" value="32×32 입력에 7×7 s=2 + maxpool 적용 시&#10;layer1 진입 단계에서 이미 8×8 까지 축소.&#10;receptive field 가 과해 정보 손실 큼." style="text;html=1;align=center;fontSize=10;fontStyle=2;fontColor=#555" vertex="1" parent="1">
+          <mxGeometry x="80" y="660" width="330" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="A_e1" style="endArrow=classic;html=1" edge="1" parent="1" source="A_in" target="A_c"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="A_e2" style="endArrow=classic;html=1" edge="1" parent="1" source="A_c" target="A_r1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="A_e3" style="endArrow=classic;html=1" edge="1" parent="1" source="A_r1" target="A_mp"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="A_e4" style="endArrow=classic;html=1" edge="1" parent="1" source="A_mp" target="A_out"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============================================================
+             Variant B — Maxpool → Identity
+             ============================================================ -->
+        <mxCell id="B_card" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7f7f7;strokeColor=#bbbbbb;dashed=0" vertex="1" parent="1">
+          <mxGeometry x="450" y="105" width="370" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="B_head" value="B.  MaxPool → Identity" style="text;html=1;align=center;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="450" y="115" width="370" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="B_sub" value="7×7 s=2  +  no MaxPool" style="text;html=1;align=center;fontSize=11;fontStyle=2;fontColor=#666" vertex="1" parent="1">
+          <mxGeometry x="450" y="138" width="370" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="B_in" value="Input&#10;3 × 32 × 32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="515" y="170" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="B_c" value="Conv 7×7&#10;stride 2,  pad 3&#10;3 → 64" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="515" y="250" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="B_r1" value="ReLU + BN&#10;→ 64 × 16 × 16" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5d6e8;strokeColor=#a23b78;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="515" y="345" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="B_id" value="Identity   (no pooling)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#888888;dashed=1;fontSize=12;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="515" y="420" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="B_out" value="→ 64 × 16 × 16&#10;enters layer1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="515" y="505" width="240" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="B_res" value="Top-1   74.50 %     (+3.60 %p)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#888888;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="490" y="600" width="290" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="B_note" value="maxpool 만 제거하여도 layer1 진입 시&#10;16×16 가 유지 — 정보 보존 증가." style="text;html=1;align=center;fontSize=10;fontStyle=2;fontColor=#555" vertex="1" parent="1">
+          <mxGeometry x="470" y="660" width="330" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="B_e1" style="endArrow=classic;html=1" edge="1" parent="1" source="B_in" target="B_c"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="B_e2" style="endArrow=classic;html=1" edge="1" parent="1" source="B_c" target="B_r1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="B_e3" style="endArrow=classic;html=1" edge="1" parent="1" source="B_r1" target="B_id"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="B_e4" style="endArrow=classic;html=1" edge="1" parent="1" source="B_id" target="B_out"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============================================================
+             Variant C — Conv 3×3 s=1
+             ============================================================ -->
+        <mxCell id="C_card" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7f7f7;strokeColor=#bbbbbb;dashed=0" vertex="1" parent="1">
+          <mxGeometry x="840" y="105" width="370" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="C_head" value="C.  Conv 3×3 s=1  +  Identity" style="text;html=1;align=center;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="840" y="115" width="370" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="C_sub" value="conv1 재초기화  (pretrained 7×7 weight 불호환)" style="text;html=1;align=center;fontSize=11;fontStyle=2;fontColor=#666" vertex="1" parent="1">
+          <mxGeometry x="840" y="138" width="370" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="C_in" value="Input&#10;3 × 32 × 32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="905" y="170" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="C_c" value="Conv 3×3&#10;stride 1,  pad 1&#10;3 → 64  &#10;⚠ random init  (shape ≠ pretrained)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffeae1;strokeColor=#c14a10;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="905" y="250" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="C_r1" value="ReLU + BN&#10;→ 64 × 32 × 32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5d6e8;strokeColor=#a23b78;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="905" y="360" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="C_id" value="Identity   (no pooling)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#888888;dashed=1;fontSize=12;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="905" y="430" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="C_out" value="→ 64 × 32 × 32&#10;enters layer1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="905" y="510" width="240" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="C_res" value="Top-1   80.60 %     (+9.70 %p)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#888888;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="880" y="600" width="290" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="C_note" value="해상도 보존 효과 큼  (16² → 32²).&#10;단, conv1 가 pretrained 7×7 와 shape 불일치 →&#10;random init 으로 시작 → ImageNet 정보 손실." style="text;html=1;align=center;fontSize=10;fontStyle=2;fontColor=#555" vertex="1" parent="1">
+          <mxGeometry x="860" y="660" width="330" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="C_e1" style="endArrow=classic;html=1" edge="1" parent="1" source="C_in" target="C_c"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="C_e2" style="endArrow=classic;html=1" edge="1" parent="1" source="C_c" target="C_r1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="C_e3" style="endArrow=classic;html=1" edge="1" parent="1" source="C_r1" target="C_id"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="C_e4" style="endArrow=classic;html=1" edge="1" parent="1" source="C_id" target="C_out"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============================================================
+             Variant D — Conv 7×7 s=1 + Identity (chosen)
+             ============================================================ -->
+        <mxCell id="D_card" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#c97a17;strokeWidth=3;dashed=0" vertex="1" parent="1">
+          <mxGeometry x="1230" y="105" width="370" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="D_badge" value="★ CHOSEN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c97a17;strokeColor=#c97a17;fontColor=#ffffff;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1490" y="118" width="100" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="D_head" value="D.  Conv 7×7 s=1  +  Identity" style="text;html=1;align=center;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1230" y="115" width="370" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D_sub" value="pretrained 7×7 weight 재사용  +  stride 만 1 로 변경" style="text;html=1;align=center;fontSize=11;fontStyle=2;fontColor=#666" vertex="1" parent="1">
+          <mxGeometry x="1230" y="138" width="370" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="D_in" value="Input&#10;3 × 32 × 32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1295" y="170" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="D_c" value="Conv 7×7&#10;stride 1,  pad 3&#10;3 → 64&#10;✓ pretrained weight 유지" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1295" y="250" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="D_r1" value="ReLU + BN&#10;→ 64 × 32 × 32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5d6e8;strokeColor=#a23b78;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1295" y="360" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="D_id" value="Identity   (no pooling)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#888888;dashed=1;fontSize=12;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="1295" y="430" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="D_out" value="→ 64 × 32 × 32&#10;enters layer1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1295" y="510" width="240" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="D_res" value="Top-1   81.82 %     (+10.92 %p)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cf;strokeColor=#a07a14;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1270" y="600" width="290" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="D_note" value="해상도 보존  +  ImageNet 7×7 weight 재사용.&#10;학습시간 5.27 → 9.52 s/epoch (≈ 1.8× ↑) 이지만&#10;정확도 +11 %p 로 trade-off 정당화." style="text;html=1;align=center;fontSize=10;fontStyle=2;fontColor=#555" vertex="1" parent="1">
+          <mxGeometry x="1250" y="660" width="330" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="D_e1" style="endArrow=classic;html=1;strokeColor=#c97a17;strokeWidth=2" edge="1" parent="1" source="D_in" target="D_c"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="D_e2" style="endArrow=classic;html=1;strokeColor=#c97a17;strokeWidth=2" edge="1" parent="1" source="D_c" target="D_r1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="D_e3" style="endArrow=classic;html=1;strokeColor=#c97a17;strokeWidth=2" edge="1" parent="1" source="D_r1" target="D_id"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="D_e4" style="endArrow=classic;html=1;strokeColor=#c97a17;strokeWidth=2" edge="1" parent="1" source="D_id" target="D_out"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============================================================
+             bottom legend / takeaway
+             ============================================================ -->
+        <mxCell id="leg" value="&lt;b&gt;Takeaway&lt;/b&gt;   maxpool 제거 (+3.6 %p) &gt; stride 2 → 1 (+6.1 %p)  로,  spatial-resolution 보존이 dominant factor.   pretrained 7×7 weight 재사용 시 +1.22 %p 추가 이득." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#bbbbbb;fontSize=12;align=center;spacingLeft=12;spacingRight=12" vertex="1" parent="1">
+          <mxGeometry x="60" y="925" width="1540" height="46" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

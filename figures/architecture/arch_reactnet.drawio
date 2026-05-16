@@ -1,0 +1,160 @@
+<mxfile host="app.diagrams.net" agent="hand-authored" version="22.0.0">
+  <diagram name="Overview" id="overview">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="A1W1 ReActNet-lite v2  (ResNet18 backbone, 1-bit weight / 1-bit activation)" style="text;html=1;align=center;fontSize=18;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="280" y="20" width="1080" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="stem &amp; classifier: full-precision   |   layer1–4: binary BasicBlockV2" style="text;html=1;align=center;fontSize=12;fontStyle=2;fontColor=#555555" vertex="1" parent="1">
+          <mxGeometry x="280" y="55" width="1080" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="in"   value="Input&#10;3×32×32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="150" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="stem" value="Stem&#10;Conv3×3 s=1&#10;BN + RPReLU&#10;→ 64×32×32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="210" y="180" width="170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="l1"   value="layer1 ×2&#10;64 → 64, s=1&#10;BasicBlockV2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe2b0;strokeColor=#c97a17;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="180" width="170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="l2"   value="layer2 ×2&#10;64 → 128, s=2&#10;BasicBlockV2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe2b0;strokeColor=#c97a17;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="590" y="180" width="170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="l3"   value="layer3 ×2&#10;128 → 256, s=2&#10;BasicBlockV2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe2b0;strokeColor=#c97a17;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="780" y="180" width="170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="l4"   value="layer4 ×2&#10;256 → 512, s=2&#10;BasicBlockV2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe2b0;strokeColor=#c97a17;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="970" y="180" width="170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="bnp"  value="BN + GAP&#10;→ 512" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="1160" y="180" width="150" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="fc"   value="FC&#10;512 → 100" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2d6f7;strokeColor=#6b3aa6;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="1330" y="180" width="150" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="endArrow=classic;html=1;rounded=0" edge="1" parent="1" source="in"   target="stem"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="endArrow=classic;html=1;rounded=0" edge="1" parent="1" source="stem" target="l1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="endArrow=classic;html=1;rounded=0" edge="1" parent="1" source="l1"   target="l2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="endArrow=classic;html=1;rounded=0" edge="1" parent="1" source="l2"   target="l3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" style="endArrow=classic;html=1;rounded=0" edge="1" parent="1" source="l3"   target="l4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" style="endArrow=classic;html=1;rounded=0" edge="1" parent="1" source="l4"   target="bnp"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" style="endArrow=classic;html=1;rounded=0" edge="1" parent="1" source="bnp"  target="fc"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="lg1" value="full-precision" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="380" width="160" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="lg2" value="binary stage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe2b0;strokeColor=#c97a17;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="320" y="380" width="160" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="lg3" value="BN / pool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="520" y="380" width="160" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="lg4" value="classifier head" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2d6f7;strokeColor=#6b3aa6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="720" y="380" width="160" height="34" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram name="BasicBlockV2" id="block">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1300" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t1" value="A1W1BasicBlockV2  —  double-skip variant" style="text;html=1;align=center;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="160" y="20" width="800" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" value="two binary sub-blocks, each with its own identity shortcut" style="text;html=1;align=center;fontSize=13;fontStyle=2;fontColor=#555555" vertex="1" parent="1">
+          <mxGeometry x="160" y="60" width="800" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="x"    value="x  (input)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="470" y="110" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="bn1"  value="BN1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="430" y="195" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="rs1"  value="RSign  (sign(x − θ_c))" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5d6e8;strokeColor=#a23b78;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="430" y="270" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="bc1"  value="BinConv 3×3   s=stride   (in → planes)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe2b0;strokeColor=#c97a17;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="430" y="345" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="bn2"  value="BN2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="430" y="420" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="rp1"  value="RPReLU  (PReLU(x − γ) + β)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5d6e8;strokeColor=#a23b78;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="430" y="495" width="260" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="add1" value="⊕" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=18;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="535" y="580" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="bn3"  value="BN3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="430" y="660" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="rs2"  value="RSign  (sign(x − θ_c))" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5d6e8;strokeColor=#a23b78;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="430" y="735" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="bc2"  value="BinConv 3×3   s=1   (planes → planes)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe2b0;strokeColor=#c97a17;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="430" y="810" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="bn4"  value="BN4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f5d6;strokeColor=#62995a;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="430" y="885" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="rp2"  value="RPReLU" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5d6e8;strokeColor=#a23b78;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="430" y="960" width="260" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="add2" value="⊕" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=18;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="535" y="1045" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="out"  value="out" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbe9ff;strokeColor=#3b6fb4;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="470" y="1125" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sd"   value="ShortcutDownsample&#10;AvgPool(s) + 0-pad   (if s &gt; 1 or Δch)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff6cf;strokeColor=#a07a14;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="780" y="195" width="280" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lab_a" value="residual_a" style="text;html=1;fontSize=11;fontStyle=2;fontColor=#444" vertex="1" parent="1">
+          <mxGeometry x="1075" y="135" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lab_b" value="residual_b&#10;(identity, optional)" style="text;html=1;align=right;fontSize=11;fontStyle=2;fontColor=#444" vertex="1" parent="1">
+          <mxGeometry x="220" y="800" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="se1" style="endArrow=classic;html=1" edge="1" parent="1" source="x"   target="bn1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se2" style="endArrow=classic;html=1" edge="1" parent="1" source="bn1" target="rs1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se3" style="endArrow=classic;html=1" edge="1" parent="1" source="rs1" target="bc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se4" style="endArrow=classic;html=1" edge="1" parent="1" source="bc1" target="bn2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se5" style="endArrow=classic;html=1" edge="1" parent="1" source="bn2" target="rp1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se6" style="endArrow=classic;html=1" edge="1" parent="1" source="rp1" target="add1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se7" style="endArrow=classic;html=1" edge="1" parent="1" source="add1" target="bn3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se8" style="endArrow=classic;html=1" edge="1" parent="1" source="bn3" target="rs2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se9" style="endArrow=classic;html=1" edge="1" parent="1" source="rs2" target="bc2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se10" style="endArrow=classic;html=1" edge="1" parent="1" source="bc2" target="bn4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se11" style="endArrow=classic;html=1" edge="1" parent="1" source="bn4" target="rp2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se12" style="endArrow=classic;html=1" edge="1" parent="1" source="rp2" target="add2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="se13" style="endArrow=classic;html=1" edge="1" parent="1" source="add2" target="out"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="sk1" style="endArrow=classic;html=1;dashed=1;strokeColor=#666;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0" edge="1" parent="1" source="x" target="sd"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="sk2" style="endArrow=classic;html=1;dashed=1;strokeColor=#666;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0" edge="1" parent="1" source="sd" target="add1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="920" y="605" /></Array></mxGeometry></mxCell>
+
+        <mxCell id="sk3" style="endArrow=classic;html=1;dashed=1;strokeColor=#666;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0" edge="1" parent="1" source="add1" target="add2"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="350" y="605" /><mxPoint x="350" y="1070" /></Array></mxGeometry></mxCell>
+
+        <mxCell id="formula" value="&lt;b&gt;Binary primitives&lt;/b&gt;&#10;&#10;&lt;b&gt;RSign(x)&lt;/b&gt;&#10;  = sign(x − θ_c)&#10;  per-channel learnable θ_c&#10;  STE: ∂ ≈ 1[|x| ≤ 1]&#10;&#10;&lt;b&gt;RPReLU(x)&lt;/b&gt;&#10;  = PReLU(x − γ_c) + β_c&#10;  per-channel γ, β, slope&#10;&#10;&lt;b&gt;A1W1BinaryConv2d&lt;/b&gt;&#10;  w_b = sign(W)   (STE, identity)&#10;  α_c = mean(|W|, dims=1,2,3)&#10;        detached (no grad)&#10;  out = conv(x, w_b) · α_c&#10;  weight clamp |W| ≤ 1 each step&#10;&#10;&lt;b&gt;ShortcutDownsample&lt;/b&gt;&#10;  AvgPool(stride) + 0-pad ch&#10;  parameter-free, BNN-friendly&#10;&#10;&lt;b&gt;Training notes&lt;/b&gt;&#10;  fp16 autocast on the spine&#10;  no EMA on student (sign collapse)&#10;  AT feature-KD on layer4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#888888;fontSize=12;fontFamily=Courier New;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6" vertex="1" parent="1">
+          <mxGeometry x="1100" y="300" width="280" height="700" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
