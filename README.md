@@ -103,6 +103,6 @@ git push -u origin main
 
 ## Team
 
-KAU 항공우주및기계공학부 · Deep Learning (2026-1) · Team 16
+KAU · Deep Learning (2026-1) · Team 16
 
 자세한 학술적 contribution은 [`report/report.md`](report/report.md)의 Abstract / §1.2 참조.
